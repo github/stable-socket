@@ -1,0 +1,5 @@
+export {connect, connectWithRetry} from './ws'
+export {BufferedSocket} from './buffered-socket'
+export {StableSocket} from './stable-socket'
+export type {ConnectPolicy} from './ws'
+export type {Socket, SocketDelegate, SocketPolicy} from './stable-socket'

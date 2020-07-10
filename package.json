@@ -1,0 +1,48 @@
+{
+  "name": "@github/stable-socket",
+  "version": "0.0.1",
+  "description": "A web socket that reconnects.",
+  "main": "dist/index.js",
+  "type": "module",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "repository": "github/stable-socket",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.js"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist",
+    "lint": "eslint src/*.ts test/*.js",
+    "prebuild": "npm run clean && npm run lint && npm run compile",
+    "compile": "tsc",
+    "build": "rollup -c",
+    "pretest": "npm run build",
+    "test": "karma start karma.config.cjs",
+    "prepublishOnly": "npm run build",
+    "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
+  },
+  "prettier": "@github/prettier-config",
+  "devDependencies": {
+    "@github/prettier-config": "0.0.4",
+    "chai": "^4.1.2",
+    "eslint": "^7.3.0",
+    "eslint-plugin-github": "^4.0.1",
+    "karma": "^5.1.0",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^3.1.0",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "mocha": "^8.0.1",
+    "rollup": "^2.21.0",
+    "typescript": "^3.9.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "plugin:github/browser",
+      "plugin:github/recommended",
+      "plugin:github/typescript"
+    ]
+  }
+}
