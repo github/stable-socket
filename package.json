@@ -10,7 +10,7 @@
   "repository": "github/stable-socket",
   "files": [
     "dist/index.js",
-    "dist/index.d.ts"
+    "dist/*.d.ts"
   ],
   "scripts": {
     "clean": "rm -rf dist",
