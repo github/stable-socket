@@ -18,6 +18,7 @@ export interface SocketDelegate {
   socketDidClose(socket: Socket, code?: number, reason?: string): void
   socketDidFinish(socket: Socket): void
   socketDidReceiveMessage(socket: Socket, message: string): void
+  socketShouldRetry?(socket: Socket, code: number): boolean
 }
 
 export class StableSocket implements Socket {
@@ -48,7 +49,10 @@ export class StableSocket implements Socket {
     this.socket.onclose = (event: CloseEvent) => {
       this.socket = null
       this.delegate.socketDidClose(this, event.code, event.reason)
-      if (isFatal(event.code)) {
+      const fatal = this.delegate.socketShouldRetry
+        ? !this.delegate.socketShouldRetry(this, event.code)
+        : isFatal(event.code)
+      if (fatal) {
         this.delegate.socketDidFinish(this)
       } else {
         setTimeout(() => this.open(), rand(100, 150))
@@ -88,7 +92,7 @@ function rand(min: number, max: number): number {
   return Math.random() * (max - min) + min
 }
 
-function isFatal(code: number): boolean {
+export function isFatal(code: number): boolean {
   return code === POLICY_VIOLATION || code === INTERNAL_ERROR
 }
 
