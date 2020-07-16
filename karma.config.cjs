@@ -1,4 +1,20 @@
-module.exports = function(config) {
+const ws = require('nodejs-websocket')
+
+ws.createServer(function (conn) {
+  conn.on('text', function (msg) {
+    if (msg.startsWith('echo:')) {
+      conn.sendText(msg.replace('echo:', ''))
+    } else if (msg.startsWith('close:')) {
+      const code = msg.replace('close:', '')
+      conn.close(code, 'reason')
+    }
+  })
+  conn.on('error', function (error) {
+    if (error.code !== 'ECONNRESET') throw error
+  })
+}).listen(7999)
+
+module.exports = function (config) {
   config.set({
     frameworks: ['mocha', 'chai'],
     files: [

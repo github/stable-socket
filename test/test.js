@@ -1,4 +1,70 @@
 import {retry, timeout, wait} from '../dist/async-tasks.js'
+import {StableSocket} from '../dist/index.js'
+
+class Delegate {
+  constructor(fatal) {
+    this.fatal = fatal
+    this.states = []
+  }
+  socketDidOpen() {
+    this.states.push('open')
+  }
+  socketDidClose() {
+    this.states.push('closed')
+  }
+  socketDidFinish() {
+    this.states.push('finished')
+  }
+  socketDidReceiveMessage(socket, message) {
+    this.states.push(`msg:${message}`)
+  }
+  socketShouldRetry(socket, code) {
+    return code !== this.fatal
+  }
+}
+
+describe('StableSocket', function () {
+  it('invokes lifecycle delegate methods', async function () {
+    const url = 'ws://localhost:7999'
+    const delegate = new Delegate(0)
+    const policy = {timeout: 100, attempts: 1, maxDelay: 100}
+    const socket = new StableSocket(url, delegate, policy)
+    await socket.open()
+    assert(socket.isOpen())
+    assert.deepEqual(['open'], delegate.states)
+    socket.send('echo:hello')
+    await wait(10)
+    socket.close()
+    assert.deepEqual(['open', 'msg:hello', 'closed', 'finished'], delegate.states)
+  })
+
+  it('retries on non-fatal close code', async function () {
+    const url = 'ws://localhost:7999'
+    const delegate = new Delegate(0)
+    const policy = {timeout: 100, attempts: 1, maxDelay: 100}
+    const socket = new StableSocket(url, delegate, policy)
+    await socket.open()
+    assert(socket.isOpen())
+    assert.deepEqual(['open'], delegate.states)
+    socket.send('close:1000')
+    await wait(200)
+    assert.deepEqual(['open', 'closed', 'open'], delegate.states)
+    socket.close()
+  })
+
+  it('does not retry on fatal close code', async function () {
+    const url = 'ws://localhost:7999'
+    const delegate = new Delegate(4000)
+    const policy = {timeout: 100, attempts: 1, maxDelay: 100}
+    const socket = new StableSocket(url, delegate, policy)
+    await socket.open()
+    assert(socket.isOpen())
+    assert.deepEqual(['open'], delegate.states)
+    socket.send('close:4000')
+    await wait(200)
+    assert.deepEqual(['open', 'closed', 'finished'], delegate.states)
+  })
+})
 
 describe('async-tasks', function () {
   describe('timeout', function () {

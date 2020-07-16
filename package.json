@@ -35,6 +35,7 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^8.0.1",
+    "nodejs-websocket": "^1.7.2",
     "rollup": "^2.21.0",
     "typescript": "^3.9.5"
   },
