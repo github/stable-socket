@@ -1,4 +1,5 @@
 import type {Socket, SocketDelegate, StableSocket} from './stable-socket'
+import {isFatal} from './stable-socket'
 
 export class BufferedSocket implements Socket, SocketDelegate {
   private buf: string[] = []
@@ -54,5 +55,9 @@ export class BufferedSocket implements Socket, SocketDelegate {
 
   socketDidReceiveMessage(socket: Socket, message: string): void {
     this.delegate.socketDidReceiveMessage(socket, message)
+  }
+
+  socketShouldRetry(socket: Socket, code: number): boolean {
+    return this.delegate.socketShouldRetry ? this.delegate.socketShouldRetry(socket, code) : !isFatal(code)
   }
 }
