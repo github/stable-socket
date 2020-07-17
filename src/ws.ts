@@ -7,19 +7,6 @@ export type ConnectPolicy = {
   signal?: AbortSignal
 }
 
-// Asynchronously connects to a web socket port or fails after a timeout. The
-// socket is open, and writable with `send`, when its promise is fulfilled.
-//
-// Examples
-//
-//   try {
-//     const socket = await connect('wss://github.com', 100)
-//     socket.send('hi')
-//   } catch (e) {
-//     console.log('Socket connection failed', e)
-//   }
-//
-// Returns a Promise fulfilled with an open socket or rejected with a connection failure.
 export async function connect(url: string, ms: number, signal?: AbortSignal): Promise<WebSocket> {
   const socket = new WebSocket(url)
   const opened = whenOpen(socket)
@@ -41,18 +28,6 @@ async function shutdown(opened: Promise<WebSocket>) {
   }
 }
 
-// Asynchronously connects to a web socket port, retrying failed connections.
-//
-// Examples
-//
-//   try {
-//     const socket = await connectWithRetry('wss://github.com', 100, 3)
-//     socket.send('hi')
-//   } catch (e) {
-//     console.log('Socket connection failed', e)
-//   }
-//
-// Returns a Promise fulfilled with an open socket or rejected with a connection failure.
 export function connectWithRetry(url: string, policy: ConnectPolicy): Promise<WebSocket> {
   const fn = () => connect(url, policy.timeout, policy.signal)
   return retry(fn, policy.attempts, policy.maxDelay, policy.signal)
