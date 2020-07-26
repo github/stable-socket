@@ -39,7 +39,7 @@ const policy = {
   maxDelay: 60000
 }
 
-const url 'wss://live.example.com'
+const url = 'wss://live.example.com'
 const socket = new StableSocket(url , delegate, policy)
 socket.open()
 ```
