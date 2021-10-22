@@ -14,6 +14,7 @@ export interface Socket {
 }
 
 export interface SocketDelegate {
+  reconnectWindow?: number
   socketDidOpen(socket: Socket): void
   socketDidClose(socket: Socket, code?: number, reason?: string): void
   socketDidFinish(socket: Socket): void
@@ -55,7 +56,7 @@ export class StableSocket implements Socket {
       if (fatal) {
         this.delegate.socketDidFinish(this)
       } else {
-        setTimeout(() => this.open(), rand(100, 150))
+        setTimeout(() => this.open(), rand(100, 100 + (this.delegate.reconnectWindow || 50)))
       }
     }
     this.socket.onmessage = (event: MessageEvent) => {
