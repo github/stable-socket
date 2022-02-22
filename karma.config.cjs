@@ -1,3 +1,4 @@
+process.env.CHROME_BIN = require('chromium').path
 const ws = require('nodejs-websocket')
 
 ws.createServer(function (conn) {
@@ -18,9 +19,9 @@ module.exports = function (config) {
   config.set({
     frameworks: ['mocha', 'chai'],
     files: [
-      {pattern: 'dist/index.js', type: 'module'},
-      {pattern: 'dist/async-tasks.js', type: 'module'},
-      {pattern: 'test/test.js', type: 'module'}
+      { pattern: 'dist/index.js', type: 'module' },
+      { pattern: 'dist/async-tasks.js', type: 'module' },
+      { pattern: 'test/test.js', type: 'module' }
     ],
     reporters: ['mocha'],
     port: 9876,
