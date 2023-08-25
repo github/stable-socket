@@ -35,7 +35,7 @@
     "karma-chrome-launcher": "^3.1.0",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "mocha": "^8.1.1",
+    "mocha": "^10.2.0",
     "nodejs-websocket": "^1.7.2",
     "rollup": "^2.26.3",
     "typescript": "^3.9.7"
