@@ -6,8 +6,6 @@ on:
 
 permissions:
   contents: read
-  packages: write
-  metadata: read
 
 jobs:
   publish-npm:
