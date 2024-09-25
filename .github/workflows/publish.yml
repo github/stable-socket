@@ -4,6 +4,11 @@ on:
   release:
     types: [created]
 
+permissions:
+  contents: read
+  packages: write
+  metadata: read
+
 jobs:
   publish-npm:
     runs-on: ubuntu-latest

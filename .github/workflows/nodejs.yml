@@ -1,5 +1,7 @@
 name: Node.js CI
 on: [push]
+permissions:
+  contents: read
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,3 +16,4 @@ jobs:
     - run: npm test
       env:
         CI: true
+
