@@ -37,7 +37,7 @@
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^10.2.0",
     "nodejs-websocket": "^1.7.2",
-    "rollup": "^2.26.3",
+    "rollup": "^3.29.5",
     "typescript": "^3.9.7"
   },
   "eslintConfig": {
