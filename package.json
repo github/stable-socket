@@ -15,30 +15,30 @@
   "scripts": {
     "clean": "rm -rf dist",
     "lint": "eslint src/*.ts test/*.js",
-    "prebuild": "npm run clean && npm run lint && npm run compile",
+    "prebuild": "npm run clean && npm run compile",
     "compile": "tsc",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "karma start karma.config.cjs",
+    "test": "npm run lint && karma start karma.config.cjs",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
   "prettier": "@github/prettier-config",
   "devDependencies": {
-    "@github/prettier-config": "0.0.4",
+    "@github/prettier-config": "0.0.6",
     "chai": "^4.1.2",
     "chromium": "^3.0.3",
-    "eslint": "^7.7.0",
-    "eslint-plugin-github": "^4.1.1",
-    "karma": "^6.3.16",
+    "eslint": "^8.0.1",
+    "eslint-plugin-github": "^5.0.2",
+    "karma": "^6.4.4",
     "karma-chai": "^0.1.0",
-    "karma-chrome-launcher": "^3.1.0",
+    "karma-chrome-launcher": "^3.2.0",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "mocha": "^10.2.0",
+    "mocha": "^10.7.3",
     "nodejs-websocket": "^1.7.2",
-    "rollup": "^2.26.3",
-    "typescript": "^3.9.7"
+    "rollup": "^4.24.0",
+    "typescript": "^5.6.3"
   },
   "eslintConfig": {
     "extends": [

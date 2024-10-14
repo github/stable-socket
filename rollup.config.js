@@ -1,9 +1,9 @@
-const pkg = require('./package.json')
+import pkg from './package.json' assert {type: 'json'}
 
 export default {
   input: 'dist/index.js',
   output: {
-    file: pkg['module'],
-    format: 'es'
-  }
+    file: pkg.module,
+    format: 'es',
+  },
 }

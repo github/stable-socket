@@ -67,14 +67,15 @@ export async function retry<T>(
   fn: () => Promise<T>,
   attempts: number,
   maxDelay = Infinity,
-  signal?: AbortSignal
+  signal?: AbortSignal,
 ): Promise<T> {
   const aborted = signal ? whenAborted(signal) : null
   for (let i = 0; i < attempts; i++) {
     try {
       const op = aborted ? Promise.race([fn(), aborted]) : fn()
       return await op
-    } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (e: any) {
       if (e.name === 'AbortError') throw e
       if (i === attempts - 1) throw e
       const ms = Math.pow(2, i) * 1000

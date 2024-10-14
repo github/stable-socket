@@ -19,9 +19,9 @@ module.exports = function (config) {
   config.set({
     frameworks: ['mocha', 'chai'],
     files: [
-      { pattern: 'dist/index.js', type: 'module' },
-      { pattern: 'dist/async-tasks.js', type: 'module' },
-      { pattern: 'test/test.js', type: 'module' }
+      {pattern: 'dist/index.js', type: 'module'},
+      {pattern: 'dist/async-tasks.js', type: 'module'},
+      {pattern: 'test/test.js', type: 'module'},
     ],
     reporters: ['mocha'],
     port: 9876,
@@ -30,6 +30,6 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless'],
     autoWatch: false,
     singleRun: true,
-    concurrency: Infinity
+    concurrency: Infinity,
   })
 }

@@ -1,4 +1,6 @@
+// eslint-disable-next-line import/extensions
 import {retry, timeout, wait} from '../dist/async-tasks.js'
+// eslint-disable-next-line import/extensions
 import {StableSocket} from '../dist/index.js'
 
 class Delegate {
@@ -175,7 +177,7 @@ describe('async-tasks', function () {
       try {
         const value = await retry(fn, 1)
         assert.equal(42, value)
-      } catch (e) {
+      } catch {
         assert.fail('rejected')
       }
     })
@@ -185,7 +187,7 @@ describe('async-tasks', function () {
       try {
         const value = await retry(fn, 2)
         assert.equal(42, value)
-      } catch (e) {
+      } catch {
         assert.fail('rejected')
       }
     })
