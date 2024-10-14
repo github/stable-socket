@@ -15,11 +15,11 @@
   "scripts": {
     "clean": "rm -rf dist",
     "lint": "eslint src/*.ts test/*.js",
-    "prebuild": "npm run clean && npm run lint && npm run compile",
+    "prebuild": "npm run clean && npm run compile",
     "compile": "tsc",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "karma start karma.config.cjs",
+    "test": "npm run lint && karma start karma.config.cjs",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
