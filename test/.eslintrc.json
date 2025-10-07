@@ -3,10 +3,9 @@
   "parserOptions": {
     "ecmaVersion": 2019
   },
-  "env": {
-    "mocha": true
-  },
-  "globals": {
-    "assert": true
+  "rules": {
+    "import/no-unresolved": ["error", { "ignore": ["\\.ts$"] }],
+    "import/extensions": ["error", "ignorePackages", { "ts": "always" }],
+    "import/named": "off"
   }
 }
