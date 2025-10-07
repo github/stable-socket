@@ -1,12 +1,18 @@
 {
   "parser": "espree",
   "parserOptions": {
-    "ecmaVersion": 2019
+    "ecmaVersion": 2019,
+    "sourceType": "module"
   },
   "env": {
-    "mocha": true
+    "browser": true
   },
   "globals": {
-    "assert": true
+    "describe": "readonly",
+    "it": "readonly",
+    "expect": "readonly"
+  },
+  "rules": {
+    "import/named": "off"
   }
 }
