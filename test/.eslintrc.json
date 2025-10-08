@@ -7,11 +7,6 @@
   "env": {
     "browser": true
   },
-  "globals": {
-    "describe": "readonly",
-    "it": "readonly",
-    "expect": "readonly"
-  },
   "rules": {
     "import/named": "off"
   }

@@ -18,7 +18,7 @@
     "prebuild": "npm run clean && npm run compile",
     "compile": "tsc",
     "build": "rollup -c",
-    "test": "npm run lint && node test-runner.js",
+    "test": "npm run lint && ./scripts/test-with-server.sh",
     "prepublishOnly": "npm run build",
     "postpublish": "npm publish --ignore-scripts --@github:registry='https://npm.pkg.github.com'"
   },
