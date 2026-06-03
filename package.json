@@ -25,14 +25,15 @@
   "prettier": "@github/prettier-config",
   "devDependencies": {
     "@github/prettier-config": "0.0.6",
-    "@vitest/browser": "^3.2.4",
+    "@vitest/browser": "^4.1.7",
+    "@vitest/browser-playwright": "^4.1.7",
     "eslint": "^8.0.1",
     "eslint-plugin-github": "^5.0.2",
     "nodejs-websocket": "^1.7.2",
-    "playwright": "1.55.1",
+    "playwright": "^1.60.0",
     "rollup": "^4.24.0",
     "typescript": "^5.6.3",
-    "vitest": "^3.2.4"
+    "vitest": "^4.1.7"
   },
   "eslintConfig": {
     "extends": [
