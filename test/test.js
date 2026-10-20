@@ -65,6 +65,52 @@ describe('StableSocket', function () {
     await wait(200)
     expect(delegate.states).toEqual(['open', 'closed', 'finished'])
   })
+
+  it('cancels a pending reconnect when closed explicitly', async function () {
+    const delegate = new Delegate(0)
+    const socket = new StableSocket('ws://localhost:7999', delegate, {timeout: 100, attempts: 1})
+    await socket.open()
+    const closed = new Promise(resolve => {
+      delegate.socketDidClose = () => {
+        delegate.states.push('closed')
+        resolve()
+      }
+    })
+    socket.send('close:1000')
+    await closed
+    socket.close()
+    try {
+      await wait(200)
+      expect(socket.isOpen()).toBe(false)
+      expect(delegate.states).toEqual(['open', 'closed'])
+      await socket.open()
+      expect(socket.isOpen()).toBe(true)
+    } finally {
+      socket.close()
+    }
+  })
+
+  it('does not schedule a reconnect after close in the close delegate', async function () {
+    const delegate = new Delegate(0)
+    const socket = new StableSocket('ws://localhost:7999', delegate, {timeout: 100, attempts: 1})
+    await socket.open()
+    const closed = new Promise(resolve => {
+      delegate.socketDidClose = () => {
+        delegate.states.push('closed')
+        socket.close()
+        resolve()
+      }
+    })
+    socket.send('close:1000')
+    await closed
+    try {
+      await wait(200)
+      expect(socket.isOpen()).toBe(false)
+      expect(delegate.states).toEqual(['open', 'closed'])
+    } finally {
+      socket.close()
+    }
+  })
 })
 
 describe('async-tasks', function () {

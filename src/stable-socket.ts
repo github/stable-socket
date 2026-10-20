@@ -28,6 +28,8 @@ export class StableSocket implements Socket {
   private socket: WebSocket | null = null
   private opening: AbortController | null = null
   private policy: SocketPolicy
+  private reconnectTimeout: ReturnType<typeof setTimeout> | undefined
+  private closed = false
 
   constructor(url: string, delegate: SocketDelegate, policy: SocketPolicy) {
     this.url = url
@@ -36,6 +38,8 @@ export class StableSocket implements Socket {
   }
 
   async open(): Promise<void> {
+    clearTimeout(this.reconnectTimeout)
+    this.closed = false
     if (this.opening || this.socket) return
     this.opening = new AbortController()
     const policy = {...this.policy, signal: this.opening.signal}
@@ -55,8 +59,8 @@ export class StableSocket implements Socket {
         : isFatal(event.code)
       if (fatal) {
         this.delegate.socketDidFinish(this)
-      } else {
-        setTimeout(() => this.open(), rand(100, 100 + (this.delegate.reconnectWindow || 50)))
+      } else if (!this.closed) {
+        this.reconnectTimeout = setTimeout(() => this.open(), rand(100, 100 + (this.delegate.reconnectWindow || 50)))
       }
     }
     this.socket.onmessage = (event: MessageEvent) => {
@@ -66,6 +70,8 @@ export class StableSocket implements Socket {
   }
 
   close(code?: number, reason?: string): void {
+    this.closed = true
+    clearTimeout(this.reconnectTimeout)
     if (this.opening) {
       this.opening.abort()
       this.opening = null
